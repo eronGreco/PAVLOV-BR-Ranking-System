@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  fetch('http://status.pavlovbr.com.br/top100/chamartabela.php')
+  fetch('https://status.pavlovbr.com.br/top100/chamartabela.php')
     .then(response => response.json())
     .then(data => {
       const sortedPlayers = data.sort((a, b) => calculateScore(b) - calculateScore(a)).slice(0, 100);
