@@ -1,0 +1,78 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Didact Gothic', sans-serif;
+    background-color: #121212; /* Cor de fundo atualizada */
+  }
+  
+  .content {
+    text-align: center;
+  }
+  
+  .logo-container {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .logo {
+    max-width: 100%; /* Ajuste a largura máxima conforme necessário */
+    height: auto;
+  }
+  
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os botões */
+    flex-wrap: wrap; /* Permite que os botões se ajustem em linhas separadas se não houver espaço suficiente */
+  }
+  
+  .button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza o conteúdo verticalmente */
+    padding: 20px;
+    width: 200px; /* Largura fixa para os botões */
+    height: 100px; /* Altura fixa para os botões */
+    background-color: #222222;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-decoration: none;
+    color: #f1f1f1;
+  }
+  
+  .button:hover {
+    transform: translateY(-5px);
+  }
+  
+  .icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 10px;
+  }
+  
+  .button span {
+    color: #f1f1f1; /* Cor do texto atualizada para melhor contraste */
+    font-size: 1em;
+  }
+  
+
+/* Responsividade para dispositivos menores */
+@media (max-width: 768px) {
+    .buttons-container {
+      flex-direction: column;
+      gap: 10px; /* Reduz o espaçamento entre os botões */
+    }
+  
+    .button {
+      width: auto; /* Faz o botão se ajustar ao conteúdo */
+      height: auto; /* Altura se ajusta ao conteúdo */
+      padding: 15px;
+    }
+  }

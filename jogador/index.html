@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil do Jogador</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="faviconpavlovbr.png" type="image/png">
+</head>
+<body>
+    <div class="profile-container">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Digite o nick do jogador" oninput="searchPlayer(this.value)">
+            <button onclick="confirmPlayer()">Pesquisar</button>
+        </div>
+        <div class="player-info">
+            <h1 id="playerName">Nick do Jogador</h1>
+            <p id="playerScore">Pontuação Total: 0</p>
+            <div class="stats">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <img src="images/kill.png" alt="Ícone de Matou" class="stat-icon" />
+                        <p id="kills">Matou: 0</p>
+                    </div>
+                    <div class="stat-item">
+                        <img src="images/death.png" alt="Ícone de Morreu" class="stat-icon" />
+                        <p id="deaths">Morreu: 0</p>
+                    </div>
+                    <div class="stat-item">
+                        <img src="images/assist.png" alt="Ícone de Ajudou" class="stat-icon" />
+                        <p id="assists">Assistências: 0</p>
+                    </div>
+                    <div class="stat-item">
+                        <img src="images/headshot.png" alt="Ícone de Tiros na Cabeça" class="stat-icon" />
+                        <p id="headshots">Tiros na Cabeça: 0</p>
+                    </div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <img src="images/desbomb.png" alt="Ícone de Bombas Desarmadas" class="stat-icon" />
+                        <p id="bombDefused">Bombas Desarmadas: 0</p>
+                    </div>
+                    <div class="stat-item">
+                        <img src="images/bomb.png" alt="Ícone de Bombas Plantadas" class="stat-icon" />
+                        <p id="bombPlanted">Bombas Plantadas: 0</p>
+                    </div>
+                    <div class="stat-item">
+                        <img src="images/tk.png" alt="Ícone de Aliados Mortos" class="stat-icon" />
+                        <p id="teamKill">Aliados Mortos: 0</p>
+                    </div>
+                    <div class="stat-item">
+                        <img src="images/kda.png" alt="Ícone de KDA" class="stat-icon" />
+                        <p id="kda">KDA: 0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

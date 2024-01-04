@@ -1,0 +1,212 @@
+/* Reset básico */
+body, html {
+  margin: 0;
+  padding: 0;
+  background: #121212;
+  font-family: 'Arial', sans-serif; /* Fallback font */
+}
+
+* {
+  font-family: 'Didact Gothic', sans-serif; /* Fonte padrão para todos os elementos */
+}
+
+/* Título principal */
+h1 {
+  text-align: center;
+  color: #e60000;
+}
+
+.logo {
+  max-width: 100%; /* Ajuste a largura máxima conforme necessário */
+  height: auto;
+}
+
+.logo-container {
+  margin-bottom: -15px;
+  text-align: center;
+}
+
+/* Container principal da leaderboard */
+.leaderboard {
+  max-width: 1040px;
+  margin: 30px auto;
+  color: #fff;
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Estilos dos cartões de jogador */
+.player-card {
+  background: #1b1b1b;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 30px auto;
+  max-width: 1040px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.player-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px 5px rgba(250, 0, 0, 0.13);
+}
+
+/* Sombra para os top 3 */
+.player-card.top1 { box-shadow: 0 0 10px 2px #ffd90096; }
+.player-card.top2 { box-shadow: 0 0 10px 2px #c0c0c096; }
+.player-card.top3 { box-shadow: 0 0 10px 2px #cd803296; }
+
+/* Cabeçalho do cartão de jogador */
+.player-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* Nome, pontuação e estatísticas do jogador */
+.player-name {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  line-height: 1;
+
+}
+
+.badge-title {
+  font-size: 15px;
+}
+
+.player-score {
+  font-size: 1.5em;
+  color: #f1c40f;
+}
+
+.player-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.stat {
+  background: #333;
+  border-radius: 5px;
+  padding: 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+/* Ícones das estatísticas */
+.stat img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+/* Insignias do jogador */
+.player-insignias {
+  justify-content: flex-end;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.player-insignias img {
+  width: 64px;
+  height: 64px;
+  margin: 0 2px;
+}
+
+/* Divisor estilizado */
+.divider {
+  height: 2px;
+  background-color: #e60000;
+  margin: 20px 0;
+}
+
+/* Respostas para telas menores */
+@media (max-width: 800px) {
+  .player-card,
+  .player-card:hover {
+    transition: none;
+    transform: none;
+  }
+
+  .player-header,
+  .player-insignias {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: 10px;
+    margin-left: 0px;
+  }
+
+  .leaderboard {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .player-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .player-score {
+    order: 3;
+    margin-top: 10px;
+  }
+}
+
+/* BARRA DE PESQUISA */
+
+#search-container {
+  margin-top: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#search-box {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 2px solid #000;
+  border-right: none;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  outline: none;
+}
+
+#search-button {
+  padding: 10px;
+  background-color: #000;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border: 2px solid #000;
+}
+
+#clear-button {
+  position: sticky;
+  right: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+  display: none;
+}
+
+#search-box:not(:placeholder-shown) + #search-button + #clear-button {
+  display: block;
+}
+
+.fa-search {
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
