@@ -34,18 +34,17 @@ function getSeasonTableName($finishedTime) {
 
 // Consulta para agregar os dados de cada jogador
 $sql = "SELECT PlayerStats.playerName, 
-               PlayerStats.matchId,
                SUM(PlayerStats.kills) AS totalKills, 
                SUM(PlayerStats.death) AS totalDeaths, 
-               SUM(PlayerStats.asssistant) AS totalAssistants, 
+               SUM(PlayerStats.assistant) AS totalAssistants, 
                SUM(PlayerStats.headshot) AS totalHeadshots, 
                SUM(PlayerStats.bombDefused) AS totalBombDefused, 
                SUM(PlayerStats.bombPlanted) AS totalBombPlanted, 
-               SUM(PlayerStats.teamKill) AS totalTeamKills, 
-               Matches.finishedTime
+               SUM(PlayerStats.teamKill) AS totalTeamKills
         FROM PlayerStats
         INNER JOIN Matches ON PlayerStats.matchId = Matches.matchId
-        GROUP BY PlayerStats.playerName, PlayerStats.matchId, Matches.finishedTime";
+        GROUP BY PlayerStats.playerName";
+
 
 $result = $conn->query($sql);
 
