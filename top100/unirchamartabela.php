@@ -39,7 +39,9 @@ if ($result->num_rows > 0) {
         $kda = ($row["totalKills"] + $row["totalAssistants"]) / max($row["totalDeaths"], 1);
         $kdaFormatted = number_format($kda, 2);
 
-        $seasonTable = (date('n', strtotime($row['finishedTime'])) >= 7) ? "PlayerStatsUnidosSeason1" : "PlayerStatsUnidosSeason2";
+        $date = new DateTime($row['finishedTime']);
+        $month = $date->format('n');
+        $seasonTable = ($month >= 7) ? "PlayerStatsUnidosSeason1" : "PlayerStatsUnidosSeason2";
 
         $kdaString = "'" . $kdaFormatted . "'";
 
