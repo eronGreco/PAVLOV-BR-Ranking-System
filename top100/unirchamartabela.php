@@ -53,12 +53,11 @@ if ($result->num_rows > 0) {
     // Processa cada linha do resultado
     while($row = $result->fetch_assoc()) {
         $kda = ($row["totalKills"] + $row["totalAssistants"]) / max($row["totalDeaths"], 1);
-        $kdaFormatted = number_format($kda, 2); // Formata o KDA para 2 casas decimais
+        $kdaFormatted = number_format($kda, 2);
 
         $seasonTable = getSeasonTableName($row['finishedTime']);
         $seasonNumber = (strpos($seasonTable, 'Season1') !== false) ? 1 : 2;
 
-        // Certifique-se de que a variável $kdaFormatted é uma string para inserção no banco de dados
         $kdaString = "'" . $kdaFormatted . "'";
 
         // SQL para inserir/atualizar na tabela da temporada
@@ -76,7 +75,7 @@ if ($result->num_rows > 0) {
 
         // Executa o SQL
         if ($conn->query($updateSql) === TRUE) {
-            echo "Jogador: " . $row["playerName"] . " | Partida: " . $row["matchId"] . " | Season: " . $seasonNumber . " | KDA: " . $kdaFormatted . "<br>\n";
+            echo "Jogador: " . $row["playerName"] . " | Partida: " . $row["matchId"] . " | Season: " . $seasonNumber . "<br>\n";
         } else {
             echo "Erro ao atualizar os dados para o jogador: " . $row["playerName"] . " - " . $conn->error . "<br>\n";
         }
