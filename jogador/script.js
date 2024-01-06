@@ -1,12 +1,12 @@
 let currentSearchResult = [];
 const MIN_SEARCH_LENGTH = 4;
 
-async function fetchPlayerData(playerName) {
+async function fetchPlayerData(name) {
     try {
         const response = await fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason2.php');
         if (response.ok) {
             const players = await response.json();
-            return players.find(p => p.playerName.toLowerCase() === playerName.toLowerCase());
+            return players.find(p => p.name.toLowerCase() === name.toLowerCase());
         } else {
             throw new Error('Falha ao carregar dados dos jogadores');
         }
@@ -16,9 +16,9 @@ async function fetchPlayerData(playerName) {
 }
 
 function calculateScore(player) {
-    return ((player.totalKills || 0) * 2) - ((player.totalDeaths || 0) * 2) + ((player.totalHeadshots || 0) * 1) +
-           ((player.totalAssistants || 0) * 1) + ((player.totalBombDefused || 0) * 3) +
-           ((player.totalBombPlanted || 0) * 2) - ((player.totalTeamKills || 0) * 5);
+    return ((player.kills || 0) * 2) - ((player.death || 0) * 2) + ((player.headshot || 0) * 1) +
+           ((player.assistant || 0) * 1) + ((player.bombDefused || 0) * 3) +
+           ((player.bombPlanted || 0) * 2) - ((player.teamKill || 0) * 5);
 }
 
 async function searchPlayer(input) {
@@ -27,7 +27,7 @@ async function searchPlayer(input) {
             const response = await fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason2.php');
             if (response.ok) {
                 const players = await response.json();
-                currentSearchResult = players.filter(p => p.playerName.toLowerCase().includes(input.toLowerCase()));
+                currentSearchResult = players.filter(p => p.name.toLowerCase().includes(input.toLowerCase()));
                 // Implemente aqui a lógica para mostrar sugestões de nomes de jogadores
             } else {
                 console.error('Erro ao buscar jogadores');
@@ -39,15 +39,15 @@ async function searchPlayer(input) {
 }
 
 async function confirmPlayer() {
-    const playerName = document.getElementById('searchInput').value.trim().toLowerCase();
+    const name = document.getElementById('searchInput').value.trim().toLowerCase();
     
     // Primeiro, buscamos todos os jogadores se o currentSearchResult estiver vazio
     if (currentSearchResult.length === 0) {
-        await searchPlayer(playerName);
+        await searchPlayer(name);
     }
 
     // Depois da busca, tentamos encontrar o jogador
-    const player = currentSearchResult.find(p => p.playerName.toLowerCase() === playerName);
+    const player = currentSearchResult.find(p => p.name.toLowerCase() === name);
 
     if (player) {
         displayPlayerData(player);
@@ -56,26 +56,17 @@ async function confirmPlayer() {
     }
 }
 
-
-function calculateKDA(player) {
-    const kills = parseInt(player.totalKills) || 0;
-    const assists = parseInt(player.totalAssistants) || 0;
-    const deaths = parseInt(player.totalDeaths) || 1; // Evitar divisão por zero
-
-    return ((kills + assists) / deaths).toFixed(2); // Arredonda para duas casas decimais
-}
-
 function displayPlayerData(playerData) {
     if (playerData) {
-        document.getElementById('playerName').textContent = playerData.playerName || 'Jogador Desconhecido';
-        document.getElementById('playerScore').textContent = 'Pontuação Total: ' + (calculateScore(playerData) || 0);
-        document.getElementById('kills').textContent = 'Matou: ' + (playerData.totalKills || 0);
-        document.getElementById('deaths').textContent = 'Morreu: ' + (playerData.totalDeaths || 0);
-        document.getElementById('assists').textContent = 'Assistências: ' + (playerData.totalAssistants || 0);
-        document.getElementById('headshots').textContent = 'Tiros na Cabeça: ' + (playerData.totalHeadshots || 0);
-        document.getElementById('bombDefused').textContent = 'Bombas Desarmadas: ' + (playerData.totalBombDefused || 0);
-        document.getElementById('bombPlanted').textContent = 'Bombas Plantadas: ' + (playerData.totalBombPlanted || 0);
-        document.getElementById('teamKill').textContent = 'Aliados Mortos: ' + (playerData.totalTeamKills || 0);
-        document.getElementById('kda').textContent = 'KDA: ' + calculateKDA(playerData); // Adicionando KDA
+        document.getElementById('name').textContent = playerData.name || 'Jogador Desconhecido';
+        document.getElementById('playerScore').textContent = 'Pontuação : ' + (calculateScore(playerData) || 0);
+        document.getElementById('kills').textContent = 'Matou: ' + (playerData.kills || 0);
+        document.getElementById('death').textContent = 'Morreu: ' + (playerData.death || 0);
+        document.getElementById('assistant').textContent = 'Assistências: ' + (playerData.assistant || 0);
+        document.getElementById('headshot').textContent = 'Tiros na Cabeça: ' + (playerData.headshot || 0);
+        document.getElementById('bombDefused').textContent = 'Bombas Desarmadas: ' + (playerData.BombDefused || 0);
+        document.getElementById('bombPlanted').textContent = 'Bombas Plantadas: ' + (playerData.BombPlanted || 0);
+        document.getElementById('teamKill').textContent = 'Aliados Mortos: ' + (playerData.teamKill || 0);
+        document.getElementById('KDA').textContent = 'KDA: ' + (playerData.KDA || 0);
     }
 }
