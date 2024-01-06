@@ -31,8 +31,8 @@ function getSeasonTableName($finishedTime) {
     }
 }
 
-// Consulta para agregar os dados de cada jogador
-$sql = "SELECT PlayerStats.playerName, 
+// Consulta para agregar os dados de cada jogador para Season 1
+$sqlSeason1 = "SELECT PlayerStats.playerName, 
                PlayerStats.matchId,
                SUM(PlayerStats.kills) AS totalKills, 
                SUM(PlayerStats.death) AS totalDeaths, 
@@ -44,24 +44,41 @@ $sql = "SELECT PlayerStats.playerName,
                Matches.finishedTime
         FROM PlayerStats
         INNER JOIN Matches ON PlayerStats.matchId = Matches.matchId
+        WHERE Matches.finishedTime BETWEEN '2023-07-01' AND '2023-12-31'
         GROUP BY PlayerStats.playerName, PlayerStats.matchId, Matches.finishedTime";
 
-$result = $conn->query($sql);
+// Consulta para agregar os dados de cada jogador para Season 2
+$sqlSeason2 = "SELECT PlayerStats.playerName, 
+               PlayerStats.matchId,
+               SUM(PlayerStats.kills) AS totalKills, 
+               SUM(PlayerStats.death) AS totalDeaths, 
+               SUM(PlayerStats.asssistant) AS totalAssistants, 
+               SUM(PlayerStats.headshot) AS totalHeadshots, 
+               SUM(PlayerStats.bombDefused) AS totalBombDefused, 
+               SUM(PlayerStats.bombPlanted) AS totalBombPlanted, 
+               SUM(PlayerStats.teamKill) AS totalTeamKills,
+               Matches.finishedTime
+        FROM PlayerStats
+        INNER JOIN Matches ON PlayerStats.matchId = Matches.matchId
+        WHERE Matches.finishedTime BETWEEN '2024-01-01' AND '2024-06-30'
+        GROUP BY PlayerStats.playerName, PlayerStats.matchId, Matches.finishedTime";
 
-if ($result->num_rows > 0) {
-    // Processa cada linha do resultado
-    while($row = $result->fetch_assoc()) {
+// Executa as consultas para Season 1 e Season 2
+$resultSeason1 = $conn->query($sqlSeason1);
+$resultSeason2 = $conn->query($sqlSeason2);
+
+if ($resultSeason1->num_rows > 0) {
+    while($row = $resultSeason1->fetch_assoc()) {
         $kda = ($row["totalKills"] + $row["totalAssistants"]) / max($row["totalDeaths"], 1);
         $kdaFormatted = number_format($kda, 2);
-
+        
         $seasonTable = getSeasonTableName($row['finishedTime']);
         $seasonNumber = (strpos($seasonTable, 'Season1') !== false) ? 1 : 2;
-
+        
         $kdaString = "'" . $kdaFormatted . "'";
-
-        // SQL para inserir/atualizar na tabela da temporada
-        $updateSql = "INSERT INTO $seasonTable (playerName, totalKills, totalDeaths, totalAssistants, totalHeadshots, totalBombDefused, totalBombPlanted, totalTeamKills, KDA) 
-                      VALUES ('{$row["playerName"]}', {$row["totalKills"]}, {$row["totalDeaths"]}, {$row["totalAssistants"]}, {$row["totalHeadshots"]}, {$row["totalBombDefused"]}, {$row["totalBombPlanted"]}, {$row["totalTeamKills"]}, $kdaString)
+        
+        $updateSql = "INSERT INTO $seasonTable (playerName, matchId, totalKills, totalDeaths, totalAssistants, totalHeadshots, totalBombDefused, totalBombPlanted, totalTeamKills, KDA) 
+                      VALUES ('{$row["playerName"]}', {$row["matchId"]}, {$row["totalKills"]}, {$row["totalDeaths"]}, {$row["totalAssistants"]}, {$row["totalHeadshots"]}, {$row["totalBombDefused"]}, {$row["totalBombPlanted"]}, {$row["totalTeamKills"]}, $kdaString)
                       ON DUPLICATE KEY UPDATE 
                           totalKills=VALUES(totalKills), 
                           totalDeaths=VALUES(totalDeaths),
@@ -71,8 +88,7 @@ if ($result->num_rows > 0) {
                           totalBombPlanted=VALUES(totalBombPlanted),
                           totalTeamKills=VALUES(totalTeamKills),
                           KDA=VALUES(KDA)";
-
-        // Executa o SQL
+        
         if ($conn->query($updateSql) === TRUE) {
             echo "Jogador: " . $row["playerName"] . " | Partida: " . $row["matchId"] . " | Season: " . $seasonNumber . "<br>\n";
         } else {
@@ -80,7 +96,39 @@ if ($result->num_rows > 0) {
         }
     }
 } else {
-    echo "0 resultados encontrados na tabela PlayerStats.<br>\n";
+    echo "0 resultados encontrados na tabela PlayerStats para Season 1.<br>\n";
+}
+
+if ($resultSeason2->num_rows > 0) {
+    while($row = $resultSeason2->fetch_assoc()) {
+        $kda = ($row["totalKills"] + $row["totalAssistants"]) / max($row["totalDeaths"], 1);
+        $kdaFormatted = number_format($kda, 2);
+        
+        $seasonTable = getSeasonTableName($row['finishedTime']);
+        $seasonNumber = (strpos($seasonTable, 'Season1') !== false) ? 1 : 2;
+        
+        $kdaString = "'" . $kdaFormatted . "'";
+        
+        $updateSql = "INSERT INTO $seasonTable (playerName, matchId, totalKills, totalDeaths, totalAssistants, totalHeadshots, totalBombDefused, totalBombPlanted, totalTeamKills, KDA) 
+                      VALUES ('{$row["playerName"]}', {$row["matchId"]}, {$row["totalKills"]}, {$row["totalDeaths"]}, {$row["totalAssistants"]}, {$row["totalHeadshots"]}, {$row["totalBombDefused"]}, {$row["totalBombPlanted"]}, {$row["totalTeamKills"]}, $kdaString)
+                      ON DUPLICATE KEY UPDATE 
+                          totalKills=VALUES(totalKills), 
+                          totalDeaths=VALUES(totalDeaths),
+                          totalAssistants=VALUES(totalAssistants),
+                          totalHeadshots=VALUES(totalHeadshots),
+                          totalBombDefused=VALUES(totalBombDefused),
+                          totalBombPlanted=VALUES(totalBombPlanted),
+                          totalTeamKills=VALUES(totalTeamKills),
+                          KDA=VALUES(KDA)";
+        
+        if ($conn->query($updateSql) === TRUE) {
+            echo "Jogador: " . $row["playerName"] . " | Partida: " . $row["matchId"] . " | Season: " . $seasonNumber . "<br>\n";
+        } else {
+            echo "Erro ao atualizar os dados para o jogador: " . $row["playerName"] . " - " . $conn->error . "<br>\n";
+        }
+    }
+} else {
+    echo "0 resultados encontrados na tabela PlayerStats para Season 2.<br>\n";
 }
 
 $conn->close();
