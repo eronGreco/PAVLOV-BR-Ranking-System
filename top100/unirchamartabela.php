@@ -28,7 +28,7 @@ $sql = "SELECT Matches.matchId, Matches.finishedTime, PlayerStats.playerName,
                SUM(PlayerStats.bombPlanted) AS totalBombPlanted, 
                SUM(PlayerStats.teamKill) AS totalTeamKills
         FROM Matches
-        INNER JOIN PlayerStats ON Matches.matchId = PlayerStats.matchld
+        INNER JOIN PlayerStats ON Matches.matchId = PlayerStats.matchId
         GROUP BY Matches.matchId, PlayerStats.playerName, Matches.finishedTime";
 
 $result = $conn->query($sql);
