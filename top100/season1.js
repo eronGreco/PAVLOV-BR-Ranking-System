@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason1.php')
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      const sortedPlayers = data.sort((a, b) => calculateScore(b) - calculateScore(a)).slice(0, 100);
+      const sortedPlayers = data.sort((a, b) => b.KDA - a.KDA).slice(0, 100); // Supondo que você queira ordenar os jogadores pelo KDA
       const leaderboardList = document.querySelector('.leaderboard-list');
 
       sortedPlayers.forEach((player, index) => {
@@ -22,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const badgeTitle = getBadgeTitle(Math.floor(playerScore / 220) + 1); // é necessário alterar o valor na function 'getBadgeUrl' também
         const name = window.innerWidth <= 600 ? truncatename(player.name) : player.name;
         const badgeUrl = getBadgeUrl(playerScore);
+        const kdaValue = player.KDA; // Supondo que o campo se chame KDA no JSON
         const insignias = {
           killer: {
             src: player.kills > 2000 ? 'images/killON.png' : 'images/killOFF.png', // Ajustado para 'player.kills'
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: 'Mais de 100 bombas desarmadas'
           },
           kdaStar: {
-            src: calculateKDA(player.kills, player.death, player.assistant) > 2.0 ? 'images/kdaON.png' : 'images/kdaOFF.png', // Ajustado para usar a função calculateKDA
+            src: kdaValue > 2.0 ? 'images/kdaON.png' : 'images/kdaOFF.png',
             title: 'KDA acima de 2.0'
           }
         };
@@ -64,8 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="stat"><img src="images/desbomb.png" alt="Bombas Desarmadas"> Bombas Desarmadas: ${player.bombDefused}</div>
         <div class="stat"><img src="images/bomb.png" alt="Bombas Plantadas"> Bombas Plantadas: ${player.bombPlanted}</div>
         <div class="stat"><img src="images/tk.png" alt="Aliados Mortos"> Aliados Mortos: ${player.teamKill}</div>
-        <div class="stat"><img src="images/kda.png" alt="KDA"> KDA: ${calculateKDA(player.kills, player.death, player.assistant).toFixed(2)}</div>
-    </div>
+        <div class="stat"><img src="images/kda.png" alt="KDA"> KDA: ${kdaValue.toFixed(2)}</div>
         `;
         leaderboardList.appendChild(playerCard);
 
@@ -111,11 +110,6 @@ function getBadgeTitle(badgeNumber) {
   }
   return titles[badgeNumber - 1];
 }
-
-function calculateKDA(kills, deaths, assists) {
-  return deaths === 0 ? kills + assists : (kills + assists) / deaths;
-}
-
 
 // 
 //
