@@ -23,19 +23,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const badgeUrl = getBadgeUrl(playerScore);
         const insignias = {
           killer: {
-            src: player.totalKills > 2000 ? 'images/killON.png' : 'images/killOFF.png',
+            src: player.kills > 2000 ? 'images/killON.png' : 'images/killOFF.png', // Ajustado para 'player.kills'
             title: 'Mais de 2000 abates'
           },
           bombPlanter: {
-            src: player.totalBombPlanted > 100 ? 'images/bombON.png' : 'images/bombOFF.png',
+            src: player.bombPlanted > 100 ? 'images/bombON.png' : 'images/bombOFF.png', // Ajustado para 'player.bombPlanted'
             title: 'Mais de 100 bombas plantadas'
           },
           bombDefuser: {
-            src: player.totalBombDefused > 100 ? 'images/desbombON.png' : 'images/desbombOFF.png',
+            src: player.bombDefused > 100 ? 'images/desbombON.png' : 'images/desbombOFF.png', // Ajustado para 'player.bombDefused'
             title: 'Mais de 100 bombas desarmadas'
           },
           kdaStar: {
-            src: player.KDA > 2.0 ? 'images/kdaON.png' : 'images/kdaOFF.png',
+            src: calculateKDA(player.kills, player.death, player.assistant) > 2.0 ? 'images/kdaON.png' : 'images/kdaOFF.png', // Ajustado para usar a função calculateKDA
             title: 'KDA acima de 2.0'
           }
         };
@@ -56,15 +56,15 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       </div>
       <div class="player-stats">
-            <div class="stat"><img src="images/kill.png" alt="Matou"> Matou: ${player.totalKills}</div>
-            <div class="stat"><img src="images/death.png" alt="Morreu"> Morreu: ${player.totalDeaths}</div>
-            <div class="stat"><img src="images/assist.png" alt="Assistências"> Assistências: ${player.totalAssistants}</div>
-            <div class="stat"><img src="images/headshot.png" alt="Headshot"> Tiros na Cabeça: ${player.totalHeadshots}</div>
-            <div class="stat"><img src="images/desbomb.png" alt="Bombas Desarmadas"> Bombas Desarmadas: ${player.totalBombDefused}</div>
-            <div class="stat"><img src="images/bomb.png" alt="Bombas Plantadas"> Bombas Plantadas: ${player.totalBombPlanted}</div>
-            <div class="stat"><img src="images/tk.png" alt="Aliados Mortos"> Aliados Mortos: ${player.totalTeamKills}</div>
-            <div class="stat"><img src="images/kda.png" alt="KDA"> KDA: ${player.KDA}</div>
-          </div>
+        <div class="stat"><img src="images/kill.png" alt="Matou"> Matou: ${player.kills}</div>
+        <div class="stat"><img src="images/death.png" alt="Morreu"> Morreu: ${player.death}</div>
+        <div class="stat"><img src="images/assist.png" alt="Assistências"> Assistências: ${player.assistant}</div>
+        <div class="stat"><img src="images/headshot.png" alt="Headshot"> Tiros na Cabeça: ${player.headshot}</div>
+        <div class="stat"><img src="images/desbomb.png" alt="Bombas Desarmadas"> Bombas Desarmadas: ${player.bombDefused}</div>
+        <div class="stat"><img src="images/bomb.png" alt="Bombas Plantadas"> Bombas Plantadas: ${player.bombPlanted}</div>
+        <div class="stat"><img src="images/tk.png" alt="Aliados Mortos"> Aliados Mortos: ${player.teamKill}</div>
+        <div class="stat"><img src="images/kda.png" alt="KDA"> KDA: ${calculateKDA(player.kills, player.death, player.assistant).toFixed(2)}</div>
+    </div>
         `;
         leaderboardList.appendChild(playerCard);
 
@@ -113,7 +113,7 @@ function getBadgeTitle(badgeNumber) {
 
 
 function calculateKDA(kills, deaths, assists) {
-  return deaths === 0 ? kills + assists : (kills + assists) / deaths;
+  return deaths === 0 ? (kills + assists) : (kills + assists) / deaths;
 }
 
 // 
