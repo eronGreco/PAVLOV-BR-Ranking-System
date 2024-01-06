@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const playerScore = calculateScore(player);
         const badgeTitle = getBadgeTitle(Math.floor(playerScore / 220) + 1); // é necessário alterar o valor na function 'getBadgeUrl' também
-        const playerName = window.innerWidth <= 600 ? truncatePlayerName(player.playerName) : player.playerName;
+        const name = window.innerWidth <= 600 ? truncatename(player.name) : player.name;
         const badgeUrl = getBadgeUrl(playerScore);
         const insignias = {
           killer: {
-            src: player.totalKills > 2000 ? 'images/killON.png' : 'images/killOFF.png',
+            src: player.kills > 2000 ? 'images/killON.png' : 'images/killOFF.png',
             title: 'Mais de 2000 abates'
           },
           bombPlanter: {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="player-header">
         <img class="player-badge" src="${badgeUrl}" alt="Player Badge" style="margin-right: 20px;">
         <div class="player-info">
-          <div class="player-name">${playerName}<br><span class="badge-title">${badgeTitle}</span></div>
+          <div class="player-name">${name}<br><span class="badge-title">${badgeTitle}</span></div>
           <div class="player-rank">Ranking: #${index + 1}</div>
           <div class="player-score">Pontuação: ${playerScore}</div>
         </div>
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       </div>
       <div class="player-stats">
-            <div class="stat"><img src="images/kill.png" alt="Matou"> Matou: ${player.totalKills}</div>
+            <div class="stat"><img src="images/kill.png" alt="Matou"> Matou: ${player.kills}</div>
             <div class="stat"><img src="images/death.png" alt="Morreu"> Morreu: ${player.totalDeaths}</div>
             <div class="stat"><img src="images/assist.png" alt="Assistências"> Assistências: ${player.totalAssistants}</div>
             <div class="stat"><img src="images/headshot.png" alt="Headshot"> Tiros na Cabeça: ${player.totalHeadshots}</div>
@@ -84,12 +84,12 @@ function getBadgeUrl(score) {
   return `images/badges/badge${Math.min(badgeNumber, 17)}.png`;
 }
 
-function truncatePlayerName(name) {
+function truncatename(name) {
   return name.length > 20 ? name.substring(0, 20) + '...' : name;
 }
 
 function calculateScore(player) {
-  return player.totalKills * 2 +
+  return player.kills * 2 +
          player.totalDeaths * -2 +
          player.totalHeadshots * 1 +
          player.totalAssistants * 1 +
@@ -152,9 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var playerCards = document.getElementsByClassName('player-card');
 
     for (var i = 0; i < playerCards.length; i++) {
-      var playerName = playerCards[i].getElementsByClassName('player-name')[0];
-      if (playerName) {
-        var txtValue = playerName.textContent || playerName.innerText;
+      var name = playerCards[i].getElementsByClassName('player-name')[0];
+      if (name) {
+        var txtValue = name.textContent || name.innerText;
         playerCards[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 || filter === '' ? '' : 'none';
       }       
     }
