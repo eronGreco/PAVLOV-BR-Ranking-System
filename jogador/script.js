@@ -3,7 +3,7 @@ const MIN_SEARCH_LENGTH = 4;
 
 async function fetchPlayerData(playerName) {
     try {
-        const response = await fetch('https://status.pavlovbr.com.br/top100/chamartabela.php');
+        const response = await fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason2.php');
         if (response.ok) {
             const players = await response.json();
             return players.find(p => p.playerName.toLowerCase() === playerName.toLowerCase());
@@ -24,7 +24,7 @@ function calculateScore(player) {
 async function searchPlayer(input) {
     if (input.length >= MIN_SEARCH_LENGTH) {
         try {
-            const response = await fetch('https://status.pavlovbr.com.br/top100/chamartabela.php');
+            const response = await fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason2.php');
             if (response.ok) {
                 const players = await response.json();
                 currentSearchResult = players.filter(p => p.playerName.toLowerCase().includes(input.toLowerCase()));

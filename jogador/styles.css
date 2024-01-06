@@ -11,8 +11,14 @@ body {
     margin-top: 0!important;
 }
 
+/* Estilos do Título Principal */
+h1 {
+    text-align: center;
+    color: #ffffff;
+  }
+  
 .profile-container {
-    width: 80%;
+    width: 100%;
     max-width: 800px;
     background: #1F1F1F;
     padding: 20px;

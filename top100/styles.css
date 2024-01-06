@@ -13,7 +13,7 @@ body, html {
 /* Estilos do Título Principal */
 h1 {
   text-align: center;
-  color: #e60000;
+  color: #ffffff;
 }
 
 /* Estilos do Logo */
@@ -128,6 +128,62 @@ h1 {
   margin: 20px 0;
 }
 
+
+
+
+/*
+  =
+  Estilos para os botões das temporadas
+  =
+ */
+
+
+.season-buttons {
+  margin-top: 5px!important;
+  text-align: center;
+  margin-bottom: -25px;
+}
+
+.season-button {
+  text-decoration: none;
+  color: white;
+  padding: 10px 40px;
+  border-radius: 20px;
+  margin: 10px;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.season-title {
+  font-size: 18px;
+}
+
+.season-subtitle {
+  font-size: 12px;
+}
+
+/* Estilo específico para o botão da SEASON 2 */
+.ativa {
+  background-color: #333333;
+}
+
+.ativa:hover {
+  background-color: #333333;
+}
+
+/* Estilo específico para o botão da SEASON 1 */
+.naoativa {
+  background-color: #1b1b1b;
+}
+
+.naoativa:hover {
+  background-color: #333333;
+}
+
+
+
+
+
 /* Estilos Responsivos para Telas Menores */
 @media (max-width: 800px) {
   .player-card,
@@ -162,14 +218,14 @@ h1 {
 
 /* Estilos da Barra de Pesquisa */
 #search-container {
-  margin-top: -10px;
+  margin-top: -25px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 #search-box {
-  padding: 10px 20px;
+  padding: 10px 40px;
   font-size: 16px;
   border: 2px solid #000;
   border-right: none;
