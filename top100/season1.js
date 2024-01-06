@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason1.php')
     .then(response => response.json())
     .then(data => {
-      const sortedPlayers = data.sort((a, b) => b.KDA - a.KDA).slice(0, 100);
+      const sortedPlayers = data.sort((a, b) => calculateScore(b) - calculateScore(a)).slice(0, 100);
       const leaderboardList = document.querySelector('.leaderboard-list');
 
       sortedPlayers.forEach((player, index) => {
@@ -78,6 +78,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     .catch(error => console.error('Error:', error));
 });
+
+function calculateScore(player) {
+  return player.kills * 2 +
+         player.death * -2 +
+         player.assistant * 1 +
+         player.headshot * 1 +
+         player.bombDefused * 3 +
+         player.bombPlanted * 2 +
+         player.teamKill * -5;
+}
+
 
 function getBadgeUrl(score) {
   const badgeNumber = Math.floor(score / 220) + 1; // Consistente com o resto do código
