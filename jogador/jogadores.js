@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-
     let currentSearchResult = [];
     const MIN_SEARCH_LENGTH = 4;
 
