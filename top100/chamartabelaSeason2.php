@@ -15,7 +15,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM PlayerStatsUnidosSeason2"; // Modifique esta consulta conforme necessário
+$sql = "SELECT * FROM sndSeason2"; // Modifique esta consulta conforme necessário
 $result = $conn->query($sql);
 
 $players = array();
