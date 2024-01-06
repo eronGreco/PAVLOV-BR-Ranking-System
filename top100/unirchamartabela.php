@@ -14,47 +14,44 @@ if ($conn->connect_error) {
 }
 echo "Conexão bem-sucedida.<br>\n";
 
-// SQL para criar a tabela PlayerStatsUnidos, se ainda não existir
-$sql = "CREATE TABLE IF NOT EXISTS PlayerStatsUnidos (
-    playerName VARCHAR(50),
-    totalKills INT,
-    totalDeaths INT,
-    totalAssistants INT,
-    totalHeadshots INT,
-    totalBombDefused INT,
-    totalBombPlanted INT,
-    totalTeamKills INT,
-    KDA FLOAT,
-    PRIMARY KEY (playerName)
-)";
+function getSeasonTableName($finishedTime) {
+    $date = new DateTime($finishedTime);
+    $year = $date->format('Y');
+    $month = $date->format('n');
 
-if ($conn->query($sql) === TRUE) {
-    echo "Tabela PlayerStatsUnidos criada ou já existente.<br>\n";
-} else {
-    echo "Erro ao criar a tabela:<br> " . $conn->error;
+    if ($month >= 7 && $month <= 12) {
+        return "PlayerStatsUnidosSeason1" . $year;
+    } else {
+        return "PlayerStatsUnidosSeason2" . ($year - 1); // A temporada 2 começa no ano anterior
+    }
 }
 
 // Consulta para agregar os dados de cada jogador
-$sql = "SELECT playerName, 
-               SUM(kills) AS totalKills, 
-               SUM(death) AS totalDeaths, 
+$sql = "SELECT PlayerStats.playerName, 
+               SUM(PlayerStats.kills) AS totalKills, 
+               SUM(PlayerStats.death) AS totalDeaths, 
                SUM(asssistant) AS totalAssistants, 
                SUM(headshot) AS totalHeadshots, 
                SUM(bombDefused) AS totalBombDefused, 
                SUM(bombPlanted) AS totalBombPlanted, 
                SUM(teamKill) AS totalTeamKills 
-        FROM PlayerStats 
-        GROUP BY playerName";
+               Matches.finishedTime
+        FROM PlayerStats
+        INNER JOIN Matches ON PlayerStats.matchId = Matches.matchId
+        GROUP BY PlayerStats.playerName";
 
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // Processa cada linha do resultado
     while($row = $result->fetch_assoc()) {
-        $kda = ($row["totalKills"] + $row["totalAssistants"]) / max($row["totalDeaths"], 1); // Evita divisão por zero
-
-        // Prepara o SQL para inserir ou atualizar os dados na tabela PlayerStatsUnidos
-        $updateSql = "INSERT INTO PlayerStatsUnidos (playerName, totalKills, totalDeaths, totalAssistants, totalHeadshots, totalBombDefused, totalBombPlanted, totalTeamKills, KDA) 
+        $kda = ($row["totalKills"] + $row["totalAssistants"]) / max($row["totalDeaths"], 1);
+    
+        // Determinar o nome da tabela da temporada
+        $seasonTable = getSeasonTableName($row['finishedTime']);
+    
+        // SQL para inserir/atualizar na tabela da temporada
+        $updateSql = "INSERT INTO $seasonTable (playerName, totalKills, totalDeaths, totalAssistants, totalHeadshots, totalBombDefused, totalBombPlanted, totalTeamKills, KDA) 
                       VALUES ('{$row["playerName"]}', {$row["totalKills"]}, {$row["totalDeaths"]}, {$row["totalAssistants"]}, {$row["totalHeadshots"]}, {$row["totalBombDefused"]}, {$row["totalBombPlanted"]}, {$row["totalTeamKills"]}, $kda)
                       ON DUPLICATE KEY UPDATE 
                           totalKills=VALUES(totalKills), 
