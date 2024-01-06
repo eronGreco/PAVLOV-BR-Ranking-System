@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
       <div class="player-stats">
             <div class="stat"><img src="images/kill.png" alt="Matou"> Matou: ${player.kills}</div>
-            <div class="stat"><img src="images/death.png" alt="Morreu"> Morreu: ${player.totalDeaths}</div>
+            <div class="stat"><img src="images/death.png" alt="Morreu"> Morreu: ${player.deaths}</div>
             <div class="stat"><img src="images/assist.png" alt="Assistências"> Assistências: ${player.totalAssistants}</div>
             <div class="stat"><img src="images/headshot.png" alt="Headshot"> Tiros na Cabeça: ${player.totalHeadshots}</div>
             <div class="stat"><img src="images/desbomb.png" alt="Bombas Desarmadas"> Bombas Desarmadas: ${player.totalBombDefused}</div>
@@ -90,7 +90,7 @@ function truncatename(name) {
 
 function calculateScore(player) {
   return player.kills * 2 +
-         player.totalDeaths * -2 +
+         player.deaths * -2 +
          player.totalHeadshots * 1 +
          player.totalAssistants * 1 +
          player.totalBombDefused * 3 +

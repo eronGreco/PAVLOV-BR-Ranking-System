@@ -90,13 +90,13 @@ function truncatename(name) {
 }
 
 function calculateScore(player) {
-  return player.totalKills * 2 +
-         player.totalDeaths * -2 +
-         player.totalHeadshots * 1 +
-         player.totalAssistants * 1 +
-         player.totalBombDefused * 3 +
-         player.totalBombPlanted * 2 +
-         player.totalTeamKills * -5;
+  return player.kills * 2 +
+         player.death * -2 +
+         player.headshot * 1 +
+         player.assistant * 1 +
+         player.bombDefused * 3 +
+         player.bombPlanted * 2 +
+         player.teamKill * -5;
 }
 
 function getBadgeTitle(badgeNumber) {
@@ -112,10 +112,6 @@ function getBadgeTitle(badgeNumber) {
   return titles[badgeNumber - 1];
 }
 
-
-function calculateKDA(kills, deaths, assists) {
-  return deaths === 0 ? (kills + assists) : (kills + assists) / deaths;
-}
 
 // 
 //
