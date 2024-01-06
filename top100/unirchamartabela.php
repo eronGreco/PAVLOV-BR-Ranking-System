@@ -22,7 +22,7 @@ echo "Conexão bem-sucedida.<br>\n";
 $sql = "SELECT Matches.matchId, Matches.finishedTime, PlayerStats.playerName, 
                SUM(PlayerStats.kills) AS totalKills, 
                SUM(PlayerStats.death) AS totalDeaths, 
-               SUM(PlayerStats.assistant) AS totalAssistants, 
+               SUM(PlayerStats.asssistant) AS totalAssistants, 
                SUM(PlayerStats.headshot) AS totalHeadshots, 
                SUM(PlayerStats.bombDefused) AS totalBombDefused, 
                SUM(PlayerStats.bombPlanted) AS totalBombPlanted, 
