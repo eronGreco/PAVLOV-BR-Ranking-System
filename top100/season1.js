@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason1.php')
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       const sortedPlayers = data.sort((a, b) => calculateScore(b) - calculateScore(a)).slice(0, 100);
       const leaderboardList = document.querySelector('.leaderboard-list');
 
