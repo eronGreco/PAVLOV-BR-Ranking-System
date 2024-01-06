@@ -112,6 +112,10 @@ function getBadgeTitle(badgeNumber) {
   return titles[badgeNumber - 1];
 }
 
+function calculateKDA(kills, deaths, assists) {
+  return deaths === 0 ? kills + assists : (kills + assists) / deaths;
+}
+
 
 // 
 //
