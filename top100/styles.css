@@ -1,4 +1,4 @@
-/* Reset básico */
+/* Reset Básico e Estilos Globais */
 body, html {
   margin: 0;
   padding: 0;
@@ -10,12 +10,13 @@ body, html {
   font-family: 'Didact Gothic', sans-serif; /* Fonte padrão para todos os elementos */
 }
 
-/* Título principal */
+/* Estilos do Título Principal */
 h1 {
   text-align: center;
   color: #e60000;
 }
 
+/* Estilos do Logo */
 .logo {
   max-width: 100%; /* Ajuste a largura máxima conforme necessário */
   height: auto;
@@ -26,19 +27,20 @@ h1 {
   text-align: center;
 }
 
-/* Container principal da leaderboard */
+/* Estilos do Container Principal da Leaderboard */
 .leaderboard {
   max-width: 1040px;
   margin: 30px auto;
   color: #fff;
 }
 
+/* Estilos da Lista de Jogadores */
 .leaderboard-list {
   list-style: none;
   padding: 0;
 }
 
-/* Estilos dos cartões de jogador */
+/* Estilos dos Cartões de Jogador */
 .player-card {
   background: #1b1b1b;
   border-radius: 10px;
@@ -58,7 +60,7 @@ h1 {
 .player-card.top2 { box-shadow: 0 0 10px 2px #c0c0c096; }
 .player-card.top3 { box-shadow: 0 0 10px 2px #cd803296; }
 
-/* Cabeçalho do cartão de jogador */
+/* Estilos do Cabeçalho do Cartão de Jogador */
 .player-header {
   display: flex;
   align-items: center;
@@ -66,13 +68,12 @@ h1 {
   margin-bottom: 15px;
 }
 
-/* Nome, pontuação e estatísticas do jogador */
+/* Estilos do Nome, Pontuação e Estatísticas do Jogador */
 .player-name {
   font-size: 40px;
   font-weight: bold;
   margin-bottom: 5px;
   line-height: 1;
-
 }
 
 .badge-title {
@@ -107,7 +108,7 @@ h1 {
   margin-right: 5px;
 }
 
-/* Insignias do jogador */
+/* Estilos das Insignias do Jogador */
 .player-insignias {
   justify-content: flex-end;
   margin-left: auto;
@@ -120,14 +121,14 @@ h1 {
   margin: 0 2px;
 }
 
-/* Divisor estilizado */
+/* Estilos do Divisor Estilizado */
 .divider {
   height: 2px;
   background-color: #e60000;
   margin: 20px 0;
 }
 
-/* Respostas para telas menores */
+/* Estilos Responsivos para Telas Menores */
 @media (max-width: 800px) {
   .player-card,
   .player-card:hover {
@@ -159,8 +160,7 @@ h1 {
   }
 }
 
-/* BARRA DE PESQUISA */
-
+/* Estilos da Barra de Pesquisa */
 #search-container {
   margin-top: -10px;
   display: flex;
