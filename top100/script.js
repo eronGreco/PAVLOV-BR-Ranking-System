@@ -103,8 +103,14 @@ function getBadgeTitle(badgeNumber) {
                  "Aspirante", "Segundo-Tenente", "Primeiro-Tenente", "Capitão", "Major", "Tenente-Coronel",
                  "Coronel", "General de Brigada", "General de Divisão", "General de Exército", "Marechal"
                 ];
+  if (badgeNumber < 1) {
+      badgeNumber = 1;
+  } else if (badgeNumber > titles.length) {
+      badgeNumber = titles.length;
+  }
   return titles[badgeNumber - 1];
 }
+
 
 function calculateKDA(kills, deaths, assists) {
   return deaths === 0 ? kills + assists : (kills + assists) / deaths;
