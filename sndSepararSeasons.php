@@ -8,15 +8,15 @@ $username = "erongrecomelo_pavlovSND";
 $password = "X&XV{V[+#&e5";
 $dbname = "erongrecomelo_pavlovSND";
 
-// Criar conexão
+// Criar conexão<br>
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexão
+// Verificar conexão<br>
 if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
 
-// Função para inserir ou atualizar dados em uma tabela específica para um jogador
+// Função para inserir ou atualizar dados em uma tabela específica para um jogador<br>
 function upsertPlayerData($conn, $season, $tableName, $name, $kills, $death, $assistant, $headshot, $bombDefused, $bombPlanted, $teamKill, $KDA) {
     $name = $conn->real_escape_string($name);
     $insertSql = "INSERT INTO $tableName (name, season, kills, death, assistant, headshot, bombDefused, bombPlanted, teamKill, KDA)
@@ -26,10 +26,14 @@ function upsertPlayerData($conn, $season, $tableName, $name, $kills, $death, $as
                   headshot = VALUES(headshot), bombDefused = VALUES(bombDefused), bombPlanted = VALUES(bombPlanted),
                   teamKill = VALUES(teamKill), KDA = VALUES(KDA)";
 
-    $conn->query($insertSql);
+    if ($conn->query($insertSql) === TRUE) {
+        echo "Dados inseridos/atualizados com sucesso na tabela $tableName<br>";
+    } else {
+        echo "Erro ao inserir/atualizar dados: " . $conn->error . "<br>";
+    }
 }
 
-// Função para buscar dados da temporada e chamar a função upsertPlayerData para cada jogador
+// Função para buscar dados da temporada e chamar a função upsertPlayerData para cada jogador<br>
 function insertSeasonData($conn, $season, $tableName) {
     $sql = "SELECT *, (kills + assistant) / (CASE WHEN death = 0 THEN 1 ELSE death END) AS KDA FROM sndUnidos WHERE season = '$season'";
     $result = $conn->query($sql);
@@ -38,16 +42,16 @@ function insertSeasonData($conn, $season, $tableName) {
         while($row = $result->fetch_assoc()) {
             upsertPlayerData($conn, $season, $tableName, $row["name"], $row["kills"], $row["death"], $row["assistant"], $row["headshot"], $row["bombDefused"], $row["bombPlanted"], $row["teamKill"], $row["KDA"]);
         }
-        echo "Dados inseridos/atualizados com sucesso na tabela $tableName\n";
+        echo "Dados inseridos/atualizados com sucesso na tabela $tableName<br>";
     } else {
-        echo "0 resultados para a temporada $season\n";
+        echo "0 resultados para a temporada $season<br>";
     }
 }
 
-// Inserir ou atualizar dados da Season1 na tabela sndSeason1
+// Inserir ou atualizar dados da Season1 na tabela sndSeason1<br>
 insertSeasonData($conn, 'Season1', 'sndSeason1');
 
-// Inserir ou atualizar dados da Season2 na tabela sndSeason2
+// Inserir ou atualizar dados da Season2 na tabela sndSeason2<br>
 insertSeasonData($conn, 'Season2', 'sndSeason2');
 
 $conn->close();
