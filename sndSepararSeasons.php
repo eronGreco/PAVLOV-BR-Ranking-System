@@ -8,15 +8,15 @@ $username = "erongrecomelo_pavlovSND";
 $password = "X&XV{V[+#&e5";
 $dbname = "erongrecomelo_pavlovSND";
 
-// Criar conexão<br>
+// Criar conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar conexão<br>
+// Verificar conexão
 if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
 
-// Função para inserir ou atualizar dados em uma tabela específica para um jogador<br>
+// Função para inserir ou atualizar dados em uma tabela específica para um jogador
 function upsertPlayerData($conn, $season, $tableName, $name, $kills, $death, $assistant, $headshot, $bombDefused, $bombPlanted, $teamKill, $KDA) {
     $name = $conn->real_escape_string($name);
     $insertSql = "INSERT INTO $tableName (name, season, kills, death, assistant, headshot, bombDefused, bombPlanted, teamKill, KDA)
@@ -33,7 +33,7 @@ function upsertPlayerData($conn, $season, $tableName, $name, $kills, $death, $as
     }
 }
 
-// Função para buscar dados da temporada e chamar a função upsertPlayerData para cada jogador<br>
+// Função para buscar dados da temporada e chamar a função upsertPlayerData para cada jogador
 function insertSeasonData($conn, $season, $tableName) {
     $sql = "SELECT *, (kills + assistant) / (CASE WHEN death = 0 THEN 1 ELSE death END) AS KDA FROM sndUnidos WHERE season = '$season'";
     $result = $conn->query($sql);
@@ -48,11 +48,12 @@ function insertSeasonData($conn, $season, $tableName) {
     }
 }
 
-// Inserir ou atualizar dados da Season1 na tabela sndSeason1<br>
-insertSeasonData($conn, 'Season1', 'sndSeason1');
+// Define a temporada ativa aqui
+$activeSeason = 'Season2'; // Altere para 'Season1' para processar dados da Season1
 
-// Inserir ou atualizar dados da Season2 na tabela sndSeason2<br>
-insertSeasonData($conn, 'Season2', 'sndSeason2');
+// Inserir ou atualizar dados da temporada ativa na tabela correspondente
+$tableName = 'snd' . $activeSeason; // Constrói o nome da tabela baseado na temporada ativa
+insertSeasonData($conn, $activeSeason, $tableName);
 
 $conn->close();
 ?>
