@@ -24,7 +24,7 @@ h1 {
     padding: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    border: 1px solid #ff0000;
+    border: 0px solid #ff0000;
 }
 
 .search-container {
@@ -127,58 +127,67 @@ h1 {
 
 
 /* Adiciona uma media query para telas menores (dispositivos móveis) */
-
 @media screen and (max-width: 1068px) {
     body {
         padding: 0;
         margin: 0;
-        align-items: flex-start;
-        display: block; /* ou flex com direção de coluna */
+        display: flex; /* Usa flex aqui para permitir flexibilidade nos elementos filhos */
+        flex-direction: column; /* Mantém a direção de coluna para organizar os elementos verticalmente */
+        align-items: flex-start; /* Alinha os itens ao início do contêiner */
         height: auto; /* Altura automática */
         overflow-x: hidden;
     }
 
     .profile-container {
-        width: 100%; /* Faz o container ocupar toda a largura da tela */
+        width: 100%; /* Ocupa toda a largura da tela */
         max-width: none; /* Remove a largura máxima */
-        padding: 10px; /* Ajusta o preenchimento conforme necessário */
-        margin: 0; /* Remove as margens laterais */
+        padding: 10px; /* Ajuste de preenchimento */
+        margin: 0 auto; /* Centraliza dentro do body */
         box-sizing: border-box; /* Garante que o padding não adicione largura extra */
         font-size: 36px;
     }
 
     .stats-row {
-        flex-direction: column; /* Faz os itens da linha se alinharem verticalmente */
+        display: flex; /* Define o stats-row como um contêiner flexível */
+        flex-wrap: wrap; /* Permite que os itens da linha sejam envolvidos */
+        justify-content: space-between; /* Espaçamento entre os itens */
         margin-bottom: 0px;
         font-size: 56px;
     }
 
     .stat-item {
-        flex: 0 0 auto; /* Cada item ocupa sua própria linha */
-        margin-bottom: 20px; /* Adiciona um pouco de espaço entre os itens */
-        height: 200px;
-        padding-top: 60px!important;
+        flex: 1; /* Permite que o item cresça */
+        max-width: calc(50% - 10px); /* Define a largura máxima para 50% menos a margem desejada */
+        margin-bottom: 20px; /* Espaço entre os itens verticalmente */
+        height: 142px;
+        padding-top: 60px !important;
     }
 
-    .stats-row:last-child .stat-item {
-        flex: 0 0 auto; /* Aplica a mesma regra para a última linha de itens */
+    .stat-item p {
+        margin: 0;
+        padding: 5px 0;
+        color: #fff;
+        font-size: 23px;
     }
 
     .search-container {
-        width: 80%; /* Ocupa toda a largura da tela */
-        margin: 0 auto; /* Centraliza se necessário */
-        padding: 10px; /* Adiciona um pouco de preenchimento */
+        width: 80%; /* Ajusta a largura */
+        margin: 0 auto; /* Centraliza */
+        padding: 10px; /* Ajuste de preenchimento */
     }
 
-    .search-container input {
-        width: calc(100% - 30px); /* Ocupa toda a largura, menos o padding */
-        font-size: 56px; /* Aumenta o tamanho da fonte */
-        margin-bottom: 10px; /* Espaço entre o campo de entrada e o botão */
+    .search-container input,
+    .search-container button {
+        width: 100%; /* Ocupa toda a largura disponível */
+        font-size: 36px; /* Aumenta a fonte para o botão */
+        margin-bottom: 10px; /* Espaço entre os elementos */
+        height: 130px;
+        border-radius: 13px;
+        text-align: center;
     }
 
     .search-container button {
-        width: 80%; /* O botão ocupa toda a largura da tela */
         height: 200px;
-        font-size: 36px; /* Aumenta o tamanho da fonte do botão */
+        margin-top: 30px;
     }
 }

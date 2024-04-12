@@ -6,10 +6,8 @@ error_reporting(E_ALL);
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-$servername = "localhost";
-$username = "erongrecomelo_pavlovSND";
-$password = "X&XV{V[+#&e5";
-$dbname = "erongrecomelo_pavlovSND";
+require_once "/home/u232758309/domains/pavlovbr.com.br/public_html/status.pavlovbr.com.br/dbconfigPAVLOV.php"; 
+
 
 // Criar conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -19,7 +17,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM sndSeason2"; // Modifique esta consulta conforme necessário
+$sql = "SELECT * FROM sndSeason2";
 $result = $conn->query($sql);
 
 $players = array();

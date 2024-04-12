@@ -5,17 +5,17 @@ error_reporting(E_ALL);
 echo "Configurações de erro inicializadas.<br>----------------------<br>";
 
 // Configurações do banco de dados
-require_once "/home/erongrecomelo/dbconfigPAVLOV.php"; // Assegure-se de que o caminho está correto e seguro
+require_once "/home/erongrecomelo/dbconfigPAVLOV.php";
 
 // Criar conexão
-$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME); // Use as constantes definidas em dbconfig.php
-echo "Conexão iniciada.<br>"; // Echo após iniciar a conexão
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME); 
+echo "Conexão iniciada.<br>"; 
 
 // Verificar conexão
 if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error); // Encerra a execução se a conexão falhar
+    die("Conexão falhou: " . $conn->connect_error);
 }
-echo "Conexão verificada com sucesso.<br>----------------------<br>"; // Echo após verificar a conexão
+echo "Conexão verificada com sucesso.<br>----------------------<br>";
 
 
 function upsertPlayerData($conn, $tableName, $data) {
