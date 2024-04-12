@@ -2,7 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
   fetch('https://status.pavlovbr.com.br/top100/chamartabelaSeason1.php')
     .then(response => response.json())
     .then(data => {
-      const sortedPlayers = data.sort((a, b) => calculateScore(b) - calculateScore(a)).slice(0, 100);
+
+      // Lista de nicks banidos
+      const bannedNicks = ['Nick1', 'Nick2', 'Nick3'];
+      // Lista de nicks banidos
+
+      const filteredPlayers = data.filter(player => !bannedNicks.includes(player.name));
+
+      const sortedPlayers = filteredPlayers.sort((a, b) => calculateScore(b) - calculateScore(a)).slice(0, 100);
       const leaderboardList = document.querySelector('.leaderboard-list');
 
       sortedPlayers.forEach((player, index) => {
@@ -76,7 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     })
 
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+      console.error('Erro ao buscar dados:', error);
+  });
 });
 
 function calculateScore(player) {

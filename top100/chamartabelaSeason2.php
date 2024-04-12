@@ -6,31 +6,31 @@ error_reporting(E_ALL);
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-require_once "/home/u232758309/domains/pavlovbr.com.br/public_html/status.pavlovbr.com.br/dbconfigPAVLOV.php"; 
-
+// Configurações do banco de dados
+require_once "/home/u232758309/domains/pavlovbr.com.br/public_html/status.pavlovbr.com.br/dbconfigPAVLOV.php";
 
 // Criar conexão
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
-// Checar conexão
+// Verificar conexão
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    http_response_code(500);
+    die(json_encode(array("error" => "Conexão falhou: " . $conn->connect_error)));
 }
 
 $sql = "SELECT * FROM sndSeason2";
 $result = $conn->query($sql);
 
-$players = array();
+$players = [];
 if ($result->num_rows > 0) {
-    // Saída dos dados de cada linha
     while($row = $result->fetch_assoc()) {
-        array_push($players, $row);
+        $players[] = $row;
     }
+    echo json_encode($players);
 } else {
-    echo "0 results";
+    http_response_code(404);
+    echo json_encode(array("message" => "0 results"));
 }
 
 $conn->close();
-
-echo json_encode($players);
 ?>
