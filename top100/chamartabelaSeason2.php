@@ -7,7 +7,7 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 // Configurações do banco de dados
-require_once "/home/u232758309/domains/pavlovbr.com.br/public_html/status.pavlovbr.com.br/dbconfigPAVLOV.php";
+require_once "/home/u232758309/domains/pavlovbr.com.br/dbconfigPAVLOV.php";
 
 // Criar conexão
 $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
