@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 echo "ERROR REPORTING ativo.<br><br>----------------------<br><br>";
-echo "--- O que caralhos esse código faz?<br>Esse script acessa a tabela 'coletadaapi' e insere as informações de jogadores filtrados pelo gamemode SND em uma nova tabela chamada 'sndUnir'.<br><br>----------------------<br><br>";
+echo "--- O que caralhos esse código faz?<br>Esse script acessa a tabela 'coletadaapi' e insere as informações de jogadores filtrados pelo gamemode SND em uma nova tabela chamada 'sndUnidos'.<br><br>----------------------<br><br>";
 
 // Configurações do banco de dados
 require_once "/home/u232758309/domains/pavlovbr.com.br/dbconfigPAVLOV.php";
@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 }
 echo "Conexão verificada com sucesso.<br>";
 
-// Consulta para filtrar dados com 'SND' em gameMode
+// Consulta para filtrar dados com 'SND' em gameMode e agrupar por name e season
 $sql = "SELECT name, season, SUM(kills) AS kills, SUM(death) AS death, SUM(assistant) AS assistant, 
         SUM(headshot) AS headshot, SUM(bombDefused) AS bombDefused, SUM(bombPlanted) AS bombPlanted, 
         SUM(teamKill) AS teamKill
@@ -47,7 +47,6 @@ if ($result->num_rows > 0) {
     echo "Tabela sndUnidos verificada/criada com sucesso.<br><br>----------------------<br><br>";
     echo "A operação começará agora, inserindo/atualizando a tabela com as informações de cada jogador.<br><br>----------------------<br><br>";
 
-
     while($row = $result->fetch_assoc()) {
         $insertSql = "INSERT INTO sndUnidos (name, season, kills, death, assistant, headshot, bombDefused, bombPlanted, teamKill)
                       VALUES ('".$row["name"]."', '".$row["season"]."', ".$row["kills"].", ".$row["death"].", ".$row["assistant"].", 
@@ -62,11 +61,7 @@ if ($result->num_rows > 0) {
                       teamKill = VALUES(teamKill)";
 
         if ($conn->query($insertSql) === TRUE) {
-            if ($conn->affected_rows > 0) {
-                echo "" . $row["name"] . " | " . $row["season"] . "<br>";
-            } else {
-                echo "" . $row["name"] . " | " . $row["season"] . "<br>";
-            }
+            echo "- " . $row["name"] . " | " . $row["season"] . " atualizado com sucesso.<br>";
         } else {
             echo "Erro jogador " . $row["name"] . ": " . $conn->error . "<br>";
         }
